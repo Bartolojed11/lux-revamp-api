@@ -39,14 +39,6 @@ app.use(mongoSanitize())
 app.use(xss())
 app.use(hpp())
 
-
-app.use((req, res, next) => {
-    // req and res, is needed here
-    // console.log('custom route!!!')
-    next()
-    // next() is used here so that it will process the next middlewares
-})
-
 app.use((req, res, next) => {
     req.requestTimeout = new Date().toISOString()
     // requestTimout can be accessed using req on any route after this middleware
@@ -58,18 +50,14 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.status(200).send({
         message: "Hello from the home page",
-        app: "natours"
+        app: "API"
     })
 })
 
 /**
  * routes => mounting routes
- * tourRoutes is called tourRoutes because it's inside routes (Convention)
  */
-const tourRouter = require('./routes/tourRoutes')
-const userRouter = require('./routes/userRoutes')
-
-app.use('/api/v1/tours', tourRouter)
+const userRouter = require('./routes/v1/userRoutes')
 
 app.use('/api/v1/users', userRouter)
 /**
