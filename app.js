@@ -58,8 +58,15 @@ app.get('/', (req, res) => {
  * routes => mounting routes
  */
 const userRouter = require('./routes/v1/userRoutes')
+const productRouter = require('./routes/v1/productRoutes')
+const categoryRouter = require('./routes/v1/categoryRoutes')
+const shopRouter = require('./routes/v1/shopRoutes')
 
 app.use('/api/v1/users', userRouter)
+app.use('/api/v1/products', productRouter)
+app.use('/api/v1/categories', categoryRouter)
+app.use('/api/v1/shops', shopRouter)
+
 /**
  * Specify unhandle routes
  * .all() means all http methods

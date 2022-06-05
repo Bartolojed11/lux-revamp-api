@@ -41,12 +41,24 @@ const UserSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'user', 'guide', 'lead-guide'],
-        default: 'user'
+        enum: ['admin', 'customer', 'seller'],
+        default: 'customer'
+    },
+    gender: {
+        type: String,
+        enum: ['male', 'female', 'other'],
+        required: true
+    },
+    birthday: {
+        type: Date
+    },
+    status: {
+        type: String,
+        enum: ['active', 'inactive', 'on-vacation']
     },
     passwordChangeAt: Date,
     passwordResetToken: String,
-    passwordResetExpires: Date,
+    passwordResetExpires: Date
 })
 
 UserSchema.pre('save', async function (next) {

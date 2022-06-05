@@ -19,6 +19,6 @@ router
     .route('/:id')
     .get(userController.getUser)
     .patch(userController.createUser)
-    .patch(userController.deleteUser)
+    .delete(userController.deleteUser)
 
 module.exports = router

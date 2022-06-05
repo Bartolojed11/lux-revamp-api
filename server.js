@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 // This will handle all uncaughtException
 process.on('uncaughtException', (err) => {
     console.log('UNCAUGHT EXCEPTION')
+    console.log(err)
     console.log(err.name, err.message)
 
     process.exit(1)
@@ -15,8 +16,6 @@ dotenv.config({
 })
 
 const app = require('./app')
-
-
 
 // For deprecation purposes
 mongoose.connect(process.env.DATABASE, {
