@@ -7,7 +7,14 @@ const authController = require('../../controllers/v1/AuthController')
 router
     .route('/')
     .get(productController.getProducts)
-    .post(authController.protect, authController.restrictTo('admin', 'seller'), productController.createProduct)
+    .post(
+        // authController.protect,
+        // authController.restrictTo('admin', 'seller'),
+        productController.uploadImgToBuffer,
+        // productController.fileFilter,
+        productController.resizeAndUploadImg,
+        productController.createProduct
+    )
 
 router
     .route('/:id')

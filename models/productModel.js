@@ -58,7 +58,7 @@ const ProductSchema = mongoose.Schema({
     },
     images: {
         type: [String],
-        // required: [true, 'A product must have at least one image']
+        required: [true, 'A product must have at least one image']
     },
     created_by: [
         {
@@ -81,6 +81,15 @@ const ProductSchema = mongoose.Schema({
     ]
 })
 
+ProductSchema.index(
+    {
+        name: 1,
+        categories: 1,
+        price: -1,
+        tags: 1
+    }
+)
+
 const Product = mongoose.model('Product', ProductSchema)
 
-exports.module = Product
+module.exports = Product

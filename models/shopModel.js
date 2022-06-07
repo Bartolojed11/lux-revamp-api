@@ -41,7 +41,11 @@ const ShopSchema = mongoose.Schema({
     },
 })
 
+
+ShopSchema.index({ name: 1, })
+
+
 const Shop = mongoose.model('Shop', ShopSchema)
 
-exports.module = Shop
+module.exports = Shop
 

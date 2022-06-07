@@ -17,6 +17,9 @@ const CategorySchema = mongoose.Schema({
     }
 })
 
+
+CategorySchema.index({ name: 1, })
+
 const Category = mongoose.model('Category', CategorySchema)
 
-exports.module = Category
+module.exports = Category
