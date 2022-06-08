@@ -78,7 +78,7 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 })
 
 exports.deleteProduct = catchAsync(async (req, res, next) => {
-    const product = await Product.findByIdAndDelete(req.params.id)
+    await Product.findByIdAndDelete(req.params.id)
 
     return res.status(200).json({
         status: 'success',
@@ -87,7 +87,7 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
 })
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
-    const product = await Product.findByIdAndUpdate(req.params.id)
+    const product = await Product.findOne({_id: req.params.id})
 
     return res.status(200).json({
         status: 'success',
