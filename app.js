@@ -46,6 +46,7 @@ app.use((req, res, next) => {
     // next() is used here so that it will process the next middlewares
 })
 
+
 // Homepage
 app.get('/', (req, res) => {
     res.status(200).send({
@@ -58,10 +59,10 @@ app.get('/', (req, res) => {
  * routes => mounting routes
  */
 const userRouter = require('./routes/v1/userRoutes')
-const productRouter = require('./routes/v1/productRoutes')
-const categoryRouter = require('./routes/v1/categoryRoutes')
-const orderRouter = require('./routes/v1/orderRoutes')
-const cartRouter = require('./routes/v1/cartRouter')
+const productRouter = require('./routes/v1/admin/productRoutes')
+const categoryRouter = require('./routes/v1/admin/categoryRoutes')
+const orderRouter = require('./routes/v1/public/orderRoutes')
+const cartRouter = require('./routes/v1/public/cartRouter')
 
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/products', productRouter)

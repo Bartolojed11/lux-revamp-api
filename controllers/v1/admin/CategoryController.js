@@ -1,5 +1,5 @@
-const Category = require('./../../models/categoryModel')
-const catchAsync = require('../../handlers/CatchAsync')
+const Category = require(`${process.cwd()}/models/categoryModel`)
+const catchAsync = require(`${process.cwd()}/handlers/CatchAsync`)
 
 exports.getCategories = catchAsync(async (req, res, next) => {
     const categories = await Category.find()
@@ -25,16 +25,6 @@ exports.createCategory = catchAsync(async (req, res, next) => {
     })
 })
 
-exports.getCategory = catchAsync(async (req, res, next) => {
-    const category = await Category.find(req.params.id)
-
-    return res.status(200).json({
-        status: 'success',
-        data: {
-            category
-        }
-    })
-})
 
 exports.deleteCategory = catchAsync(async (req, res, next) => {
     const category = await Category.findByIdAndDelete(req.params.id)

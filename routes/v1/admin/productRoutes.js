@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const productController = express.Controller = require('../../controllers/v1/ProductController')
-const authController = require('../../controllers/v1/AuthController')
+const productController = require(`${process.cwd()}/controllers/v1/admin/ProductController`)
+const authController = require(`${process.cwd()}/controllers/v1/AuthController`)
 
 router
     .route('/')

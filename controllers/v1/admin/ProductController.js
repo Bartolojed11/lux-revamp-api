@@ -1,6 +1,6 @@
-const Product = require('./../../models/productModel')
-const catchAsync = require('../../handlers/CatchAsync')
-const AppError = require('../../handlers/AppError')
+const Product = require(`${process.cwd()}/models/productModel`)
+const catchAsync = require(`${process.cwd()}/handlers/CatchAsync`)
+const AppError = require(`${process.cwd()}/handlers/AppError`)
 
 const multer = require('multer')
 const sharp = require('sharp')
