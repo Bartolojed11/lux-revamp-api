@@ -7,7 +7,7 @@ const authController = require(`${process.cwd()}/controllers/v1/AuthController`)
 
 router
     .route('/')
-    .get(categoryController.getCategories)
+    .get(sharedCategoryController.getCategories)
     .post(
         // authController.protect, 
         // authController.restrictTo('admin'), 

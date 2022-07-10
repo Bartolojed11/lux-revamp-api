@@ -42,18 +42,6 @@ exports.resizeAndUploadImg = (req, res, next) => {
     next()
 }
 
-exports.getProducts = catchAsync(async (req, res, next) => {
-    const products = await Product.find()
-
-    res.status(200).json({
-        status: 'success',
-        results: products.length,
-        data: {
-            products
-        }
-    })
-})
-
 exports.getProductsByCategory = catchAsync(async (req, res, next) => {
     const { category_id } = req.params
     const products = await Product.find({category_id})

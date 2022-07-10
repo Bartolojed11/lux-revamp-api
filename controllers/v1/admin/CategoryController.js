@@ -1,18 +1,6 @@
 const Category = require(`${process.cwd()}/models/categoryModel`)
 const catchAsync = require(`${process.cwd()}/handlers/CatchAsync`)
 
-exports.getCategories = catchAsync(async (req, res, next) => {
-    const categories = await Category.find()
-
-    res.status(200).json({
-        status: 'success',
-        results: categories.length,
-        data: {
-            categories
-        }
-    })
-})
-
 exports.createCategory = catchAsync(async (req, res, next) => {
     const newCategory = await Category.create(req.body)
 
