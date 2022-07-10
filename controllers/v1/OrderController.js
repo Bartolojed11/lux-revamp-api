@@ -1,13 +1,23 @@
 const Order = require('./../../models/ordersModel')
 const AppError = require('./../../handlers/AppError')
+
+const cartController = require('./CartController')
+
 const catchAsync = require('./../../handlers/catchAsync')
 
+const mongoose = require('mongoose')
+
 exports.getOrders = catchAsync(async (req, res, next) => {
-    const orders = await Order.find({ user_id: req.params.user_id })
+    let { user_id } = req.params
+
+    // user_id has type of mongoose.Schema.ObjectId,, in order to get result, we need to convert it to ObjectId
+    user_id = new mongoose.Types.ObjectId(user_id);
+
+    const orders = await Order.find({ user_id })
 
     return res.status(200).json({
         status: 'success',
-        results: orders.length,
+        results: orders.length || 0,
         data: {
             orders
         }
@@ -26,14 +36,27 @@ exports.getOrder = catchAsync(async (req, res, next) => {
     })
 })
 
-exports.createOrder = catchAsync(async (req, res, next) => {
+exports.placeOrder = catchAsync(async (req, res, next) => {
+    const { ref_num, user_id, name, notes, total_amount, ordered_items, delivery_address } = req.body
 
-    const order = await Order.create(req.body)
+    const order = await Order.create({
+        ref_num,
+        user_id,
+        name,
+        notes,
+        total_amount,
+        ordered_items,
+        delivery_address,
+    })
+
+    // Delete cart items that are being checkout
+    cartController.delete(req, res, next)
 
     return res.status(200).json({
         status: 'success',
         data: {
-            order
+            ordered_items,
+            order,
         }
     })
 })

@@ -7,40 +7,51 @@ const OrderSchema = mongoose.Schema({
         unique: true
     },
     user_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
+        ref: 'users',
         required: [true, 'Please provide a user id']
     },
     name: {
         type: String,
         required: [true, 'Please provide a name']
     },
-    address: {
-        type: String,
-        required: [true, 'Please provide an address']
-    },
     notes: {
         type: String
     },
-    region: {
-        type: String,
-        required: [true, 'Please provide a region']
-    },
-    city: {
-        type: String,
-        required: [true, 'Please provide a city']
-    },
-    brgy: {
-        type: String
-    },
-    latitude: {
-        type: String
-    },
-    longitude: {
-        type: String
-    },
-    postal_code: {
-        type: String
-    },
+    delivery_address: [
+        {
+            type: {
+                type: Array,
+                required: [true, 'Please provide a delivery address']
+            },
+            address: {
+                type: String,
+                required: [true, 'Please provide an address']
+            },
+            region: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'regions',
+                required: [true, 'Please provide a region']
+            },
+            city: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'cities',
+                required: [true, 'Please provide a city']
+            },
+            brgy: {
+                type: String
+            },
+            latitude: {
+                type: String
+            },
+            longitude: {
+                type: String
+            },
+            postal_code: {
+                type: String
+            },
+        }
+    ],
     total_amount: {
         type: Number,
         required: [true, 'Please provide a total amount']
@@ -52,14 +63,17 @@ const OrderSchema = mongoose.Schema({
     },
     cancelled_by: {
         type: String,
-        enum: ['customer', 'seller']
+        default: '',
+        enum: ['customer', 'seller', '']
     },
     payment_status: {
         type: String,
-        enum: ['pending', 'paid', 'unpaid']
+        enum: ['pending', 'paid', 'unpaid'],
+        default: 'unpaid',
     },
     payment_method: {
-        type: String
+        type: String,
+        default: 'cod',
     },
     payment_date: {
         type: Date
@@ -80,19 +94,15 @@ const OrderSchema = mongoose.Schema({
     date_cancelled: {
         type: Date
     },
-    order_details: [
+    ordered_items: [
         {
             type: {
-                type: String,
+                type: Array,
                 required: [true, 'Please provide order items']
-            },
-            shop_id: {
-                type: mongoose.Schema.ObjectId,
-                ref: 'Shop'
             },
             product_id: {
                 type: mongoose.Schema.ObjectId,
-                ref: 'Product'
+                ref: 'products'
             },
             quantity: {
                 type: Number,

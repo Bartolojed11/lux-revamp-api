@@ -60,14 +60,14 @@ app.get('/', (req, res) => {
 const userRouter = require('./routes/v1/userRoutes')
 const productRouter = require('./routes/v1/productRoutes')
 const categoryRouter = require('./routes/v1/categoryRoutes')
-const shopRouter = require('./routes/v1/shopRoutes')
 const orderRouter = require('./routes/v1/orderRoutes')
+const cartRouter = require('./routes/v1/cartRouter')
 
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/categories', categoryRouter)
-app.use('/api/v1/shops', shopRouter)
 app.use('/api/v1/orders', orderRouter)
+app.use('/api/v1/cart', cartRouter)
 
 /**
  * Specify unhandle routes

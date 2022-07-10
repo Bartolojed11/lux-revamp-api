@@ -54,6 +54,19 @@ exports.getProducts = catchAsync(async (req, res, next) => {
     })
 })
 
+exports.getProductsByCategory = catchAsync(async (req, res, next) => {
+    const { category_id } = req.params
+    const products = await Product.find({category_id})
+
+    res.status(200).json({
+        status: 'success',
+        results: products.length,
+        data: {
+            products
+        }
+    })
+})
+
 exports.createProduct = catchAsync(async (req, res, next) => {
     const newProduct = await Product.create(req.body)
 

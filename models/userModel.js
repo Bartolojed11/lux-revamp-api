@@ -47,14 +47,15 @@ const UserSchema = mongoose.Schema({
     gender: {
         type: String,
         enum: ['male', 'female', 'other'],
-        required: true
+        default: 'other'
     },
     birthday: {
         type: Date
     },
     status: {
         type: String,
-        enum: ['active', 'inactive', 'on-vacation']
+        enum: ['active', 'inactive', 'on-vacation'],
+        default: 'active'
     },
     passwordChangeAt: Date,
     passwordResetToken: String,

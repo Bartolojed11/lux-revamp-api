@@ -15,6 +15,7 @@ const signToken = (id) => {
 
 const createSendToken = (user, status, res) => {
     const token = signToken(user._id)
+
     let cookieOptions = {
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
         httpOnly: true // This cant be accessed or modified by browsers. All browsers will receive cookie, send it along w/ every request
@@ -26,7 +27,15 @@ const createSendToken = (user, status, res) => {
 
     res.status(status).json({
         status: 'success',
-        token
+        data: {
+            token,
+            status: user.status,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            role: user.role,
+            status: user.status,
+        }
     })
 }
 
@@ -63,7 +72,8 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body
-
+    console.log("🚀 ~ file: AuthController.js ~ line 66 ~ exports.login=catchAsync ~ email", email)
+    
     if (!email || !password) {
         return next(new AppError('Please provide a valid email and password', 400))
     }

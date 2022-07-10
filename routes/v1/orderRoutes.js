@@ -6,27 +6,30 @@ const router = express.Router()
 
 router
     .route('/')
-    .get(
-        authController.protect,
-        authController.restrictTo('customer'),
-        orderController.getOrders
-    )
     .post(
-        authController.protect,
-        authController.restrictTo('customer'),
-        orderController.createOrder
+        // authController.protect,
+        // authController.restrictTo('customer'),
+        orderController.placeOrder
     )
+
+router
+        .route('/:user_id')
+        .get(
+            // authController.protect,
+            // authController.restrictTo('customer'),
+            orderController.getOrders
+        )
 
 router
     .route('/:ref_num')
     .get(
-        authController.protect,
-        authController.restrictTo('customer'),
+        // authController.protect,
+        // authController.restrictTo('customer'),
         orderController.getOrder
     )
     .patch(
-        authController.protect,
-        authController.restrictTo('customer'),
+        // authController.protect,
+        // authController.restrictTo('customer'),
         orderController.cancelOrder
     )
 

@@ -72,12 +72,6 @@ const ProductSchema = mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: 'User'
         }
-    ],
-    shop_id: [
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Shop'
-        }
     ]
 })
 
