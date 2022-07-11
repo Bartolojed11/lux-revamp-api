@@ -14,6 +14,9 @@ const CategorySchema = mongoose.Schema({
     is_active: {
         type: Boolean,
         default: true
+    },
+    image: {
+        type: String
     }
 })
 

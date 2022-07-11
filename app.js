@@ -13,7 +13,23 @@ const ErrorHandler = require('./handlers/ErrorHandler')
 const app = express()
 
 // Global middlewares
-
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  
+      // Request methods you wish to allow
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  
+      // Request headers you wish to allow
+      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  
+      // Set to true if you need the website to include cookies in the requests sent
+      // to the API (e.g. in case you use sessions)
+      res.setHeader('Access-Control-Allow-Credentials', true);
+  
+      // Pass to next layer of middleware
+      next();
+  })
+  
 // Set security HTTP headers
 app.use(helmet())
 
@@ -58,17 +74,26 @@ app.get('/', (req, res) => {
 /**
  * routes => mounting routes
  */
+// public
 const userRouter = require('./routes/v1/userRoutes')
-const productRouter = require('./routes/v1/admin/productRoutes')
-const categoryRouter = require('./routes/v1/admin/categoryRoutes')
 const orderRouter = require('./routes/v1/public/orderRoutes')
 const cartRouter = require('./routes/v1/public/cartRouter')
+const productRouter = require('./routes/v1/public/productRoutes')
 
 app.use('/api/v1/users', userRouter)
-app.use('/api/v1/products', productRouter)
-app.use('/api/v1/categories', categoryRouter)
 app.use('/api/v1/orders', orderRouter)
 app.use('/api/v1/cart', cartRouter)
+app.use('/api/v1/products', productRouter)
+
+// admin
+const adminProductRouter = require('./routes/v1/admin/productRoutes')
+const adminCategoryRouter = require('./routes/v1/admin/categoryRoutes')
+const adminOrderRouter = require('./routes/v1/admin/orderRoutes')
+
+app.use('/api/v1/admin/products', adminProductRouter)
+app.use('/api/v1/admin/categories', adminCategoryRouter)
+app.use('/api/v1/admin/orders', adminOrderRouter)
+
 
 /**
  * Specify unhandle routes

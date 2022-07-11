@@ -30,7 +30,8 @@ const createSendToken = (user, status, res) => {
         data: {
             token,
             status: user.status,
-            name: user.name,
+            first_name: user.first_name,
+            last_name: user.last_name,
             email: user.email,
             gender: user.gender,
             role: user.role,
@@ -52,11 +53,18 @@ exports.restrictTo = (...roles) => {
 }
 
 exports.signup = catchAsync(async (req, res, next) => {
+    const { first_name, last_name, email, password, passwordConfirm } = req.body
+
+    const user = await User.find({ email })
+
+    if (user.length !== 0) throw new AppError('This account already exists')
+
     const newUser = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm
+        first_name,
+        last_name,
+        email,
+        password,
+        passwordConfirm,
     })
 
     const token = signToken(newUser._id)
@@ -70,10 +78,10 @@ exports.signup = catchAsync(async (req, res, next) => {
     })
 })
 
+
 exports.login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body
-    console.log("🚀 ~ file: AuthController.js ~ line 66 ~ exports.login=catchAsync ~ email", email)
-    
+
     if (!email || !password) {
         return next(new AppError('Please provide a valid email and password', 400))
     }

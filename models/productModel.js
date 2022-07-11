@@ -16,7 +16,7 @@ const ProductSchema = mongoose.Schema({
     categories: [
         {
             type: mongoose.Schema.ObjectId,
-            ref: 'Category'
+            ref: 'categories'
         }
     ],
     summary: {
@@ -64,13 +64,13 @@ const ProductSchema = mongoose.Schema({
         {
             type: mongoose.Schema.ObjectId,
             required: true,
-            ref: 'User'
+            ref: 'users'
         }
     ],
     updated_by: [
         {
             type: mongoose.Schema.ObjectId,
-            ref: 'User'
+            ref: 'users'
         }
     ]
 })
