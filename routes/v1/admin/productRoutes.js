@@ -19,7 +19,7 @@ router
 
 router
     .route('/:id')
-    .get(productController.getProduct)
+    .get(sharedProductController.checkGetProductParam, sharedProductController.getProduct)
     .patch(authController.protect, authController.restrictTo('admin'), productController.createProduct)
     .delete(authController.protect, authController.restrictTo('admin'), productController.deleteProduct)
 

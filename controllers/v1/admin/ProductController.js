@@ -68,24 +68,6 @@ exports.createProduct = catchAsync(async (req, res, next) => {
     })
 })
 
-exports.getProduct = catchAsync(async (req, res, next) => {
-    const { id, url } = req.params
-    let condition = { _id: id}
-    if (url !== undefined) {
-        condition = { url: url}
-    }
-
-    console.log(url)
-    const product = await Product.find(condition)
-
-    return res.status(200).json({
-        status: 'success',
-        data: {
-            product
-        }
-    })
-})
-
 exports.deleteProduct = catchAsync(async (req, res, next) => {
     await Product.findByIdAndDelete(req.params.id)
 
