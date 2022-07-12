@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 
 
 // Homepage
-app.get('/', (req, res) => {
+app.get('/api/v1', (req, res) => {
     res.status(200).send({
         message: "Hello from the home page",
         app: "API"
@@ -93,7 +93,6 @@ const adminOrderRouter = require('./routes/v1/admin/orderRoutes')
 app.use('/api/v1/admin/products', adminProductRouter)
 app.use('/api/v1/admin/categories', adminCategoryRouter)
 app.use('/api/v1/admin/orders', adminOrderRouter)
-
 
 /**
  * Specify unhandle routes

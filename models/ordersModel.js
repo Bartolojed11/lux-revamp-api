@@ -33,6 +33,11 @@ const OrderSchema = mongoose.Schema({
                 ref: 'regions',
                 required: [true, 'Please provide a region']
             },
+            province: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'provinces',
+                required: [true, 'Please provide a province']
+            },
             city: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'cities',

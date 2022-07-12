@@ -14,6 +14,7 @@ const signToken = (id) => {
 }
 
 const createSendToken = (user, status, res) => {
+
     const token = signToken(user._id)
 
     let cookieOptions = {
@@ -24,7 +25,7 @@ const createSendToken = (user, status, res) => {
     // .secure will only send to https
     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true
     res.cookie('jwt', token, cookieOptions)
-
+    
     res.status(status).json({
         status: 'success',
         data: {
@@ -36,6 +37,8 @@ const createSendToken = (user, status, res) => {
             gender: user.gender,
             role: user.role,
             status: user.status,
+            id: user._id,
+            phone_number: user.phone_number
         }
     })
 }
@@ -53,7 +56,7 @@ exports.restrictTo = (...roles) => {
 }
 
 exports.signup = catchAsync(async (req, res, next) => {
-    const { first_name, last_name, email, password, passwordConfirm } = req.body
+    const { first_name, last_name, email, password, passwordConfirm, phone_number } = req.body
 
     const user = await User.find({ email })
 
@@ -65,6 +68,7 @@ exports.signup = catchAsync(async (req, res, next) => {
         email,
         password,
         passwordConfirm,
+        phone_number
     })
 
     const token = signToken(newUser._id)

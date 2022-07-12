@@ -32,7 +32,7 @@ exports.getProducts = catchAsync(async (req, res, next) => {
 
 
 exports.getProduct = catchAsync(async (req, res, next) => {
-    const product = await Product.find(req.get_product_condition)
+    const product = await Product.findOne(req.get_product_condition)
 
     return res.status(200).json({
         status: 'success',

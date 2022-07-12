@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 const CartModelSchema = mongoose.Schema({
     user_id: {
@@ -6,10 +7,15 @@ const CartModelSchema = mongoose.Schema({
         ref: 'users',
         required: [true, 'Please provide a user id']
     },
-    name: {
+    email: {
         type: String,
-        required: [true, 'Please provide a name']
-    }
+        required: [true, 'Please provide your email address'],
+        unique: true,
+        validate: [
+            validator.isEmail,
+            'Please provide a valid email address'
+        ]
+},
 })
 
 const CartModel = mongoose.model('Cart', CartModelSchema)
