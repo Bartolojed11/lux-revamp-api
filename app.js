@@ -79,20 +79,24 @@ const userRouter = require('./routes/v1/userRoutes')
 const orderRouter = require('./routes/v1/public/orderRoutes')
 const cartRouter = require('./routes/v1/public/cartRouter')
 const productRouter = require('./routes/v1/public/productRoutes')
+const locationRouter = require('./routes/v1/public/locationRoutes')
 
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/orders', orderRouter)
 app.use('/api/v1/cart', cartRouter)
 app.use('/api/v1/products', productRouter)
+app.use('/api/v1/locations', locationRouter)
 
 // admin
 const adminProductRouter = require('./routes/v1/admin/productRoutes')
 const adminCategoryRouter = require('./routes/v1/admin/categoryRoutes')
 const adminOrderRouter = require('./routes/v1/admin/orderRoutes')
+const LocationRouter = require('./routes/v1/admin/locationRoutes')
 
 app.use('/api/v1/admin/products', adminProductRouter)
 app.use('/api/v1/admin/categories', adminCategoryRouter)
 app.use('/api/v1/admin/orders', adminOrderRouter)
+app.use('/api/v1/admin/location', LocationRouter)
 
 /**
  * Specify unhandle routes
