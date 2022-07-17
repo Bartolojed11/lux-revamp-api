@@ -103,6 +103,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.protect = catchAsync(async (req, res, next) => {
     const { authorization } = req.headers
+    console.log("🚀 ~ file: AuthController.js ~ line 106 ~ exports.protect=catchAsync ~ authorization", authorization)
     let token
 
     if (authorization && authorization.startsWith('Bearer')) {

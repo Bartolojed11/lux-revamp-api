@@ -65,6 +65,33 @@ const UserSchema = mongoose.Schema({
         enum: ['active', 'inactive', 'on-vacation'],
         default: 'active'
     },
+    addresses: [{
+        type: Array,
+        region: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'regions',
+            required: [true, 'Please select a region']
+        },
+        province: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'provinces',
+            required: [true, 'Please select a province']
+        },
+        city: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'cities',
+            required: [true, 'Please select a city']
+        },
+        brgy: {
+            type: String
+        },
+        postal_code: {
+            type: Number
+        },
+        additional_address: {
+            type: String
+        }
+    }],
     passwordChangeAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date
