@@ -23,7 +23,7 @@ const UserSchema = mongoose.Schema({
     },
     phone_number: {
         type: String,
-        required: [true, 'Please provide your phone number'],
+        // required: [true, 'Please provide your phone number'],
     },
     photo: {
         type: String
@@ -67,6 +67,11 @@ const UserSchema = mongoose.Schema({
     },
     addresses: [{
         type: Array,
+        _id: {
+            type:  mongoose.Schema.ObjectId,
+            required: true,
+            unique: true
+        },
         region: {
             type: mongoose.Schema.ObjectId,
             ref: 'regions',
@@ -90,7 +95,8 @@ const UserSchema = mongoose.Schema({
         },
         additional_address: {
             type: String
-        }
+        },
+        default: false
     }],
     passwordChangeAt: Date,
     passwordResetToken: String,
