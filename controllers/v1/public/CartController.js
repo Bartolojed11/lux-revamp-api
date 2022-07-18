@@ -56,9 +56,15 @@ exports.getCart = catchAsync(async (req, res, next) => {
     // user_id has type of mongoose.Schema.ObjectId, in order to get result, we need to convert it to ObjectId
     user_id = new mongoose.Types.ObjectId(user_id);
 
-    const user_cart = await Cart
+    let user_cart = await Cart
         .aggregate([
-            { $match: { user_id: { $eq: user_id } } },
+            {
+                $match: { user_id: { $eq: user_id } },
+                
+            },
+            {
+                "$limit":1
+            },
             {
                 "$lookup": {
                     // foreignField is located in the from table
@@ -75,12 +81,11 @@ exports.getCart = catchAsync(async (req, res, next) => {
                     ],
                     as: "cart_items"
                 },
-
             },
-
+            
             {
                 $project: {
-                    "_id": 0,
+                    "_id": 1,
                     "cart_items._id": 1,
                     "cart_items.amount": 1,
                     "cart_items.total_amount": 1,
@@ -88,10 +93,12 @@ exports.getCart = catchAsync(async (req, res, next) => {
                     "cart_items.product.name": 1,
                     "cart_items.product.images": 1,
                 }
-            }
-
+            },
         ])
 
+        // TODO : Find a remove [0]
+    user_cart = user_cart[0] ?? []
+    
     return res.status(200).json({
         status: 'success',
         results: user_cart.cart_items?.length,
