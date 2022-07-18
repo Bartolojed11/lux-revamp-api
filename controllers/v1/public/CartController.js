@@ -7,16 +7,17 @@ const AppError = require(`${process.cwd()}/handlers/AppError`)
 const mongoose = require('mongoose')
 
 exports.create = catchAsync(async (req, res, next) => {
-    const { user_id, email, cart_items } = req.body
+    const { cart_items } = req.body
+    const { user } = req
 
     let user_cart = await Cart.findOne({
-        user_id
+        user_id: user._id
     })
 
     if (user_cart === null) {
         user_cart = await Cart.create({
-            user_id,
-            email
+            user_id:  user._id,
+            email:  user.email
         })
     }
 
@@ -50,8 +51,9 @@ exports.create = catchAsync(async (req, res, next) => {
 })
 
 exports.getCart = catchAsync(async (req, res, next) => {
-    let { user_id } = req.body
-    // user_id has type of mongoose.Schema.ObjectId,, in order to get result, we need to convert it to ObjectId
+    let user_id = req.user._id
+
+    // user_id has type of mongoose.Schema.ObjectId, in order to get result, we need to convert it to ObjectId
     user_id = new mongoose.Types.ObjectId(user_id);
     const user_cart = await Cart
         .aggregate([{ $match: { user_id: { $eq: user_id } } }])
@@ -67,7 +69,9 @@ exports.getCart = catchAsync(async (req, res, next) => {
 })
 
 exports.delete = catchAsync(async (req, res, next) => {
-    const { user_id, cart_items } = req.body
+    const { cart_items } = req.body
+
+    const user_id = req.user._id
 
     let user_cart = await Cart.findOne({
         user_id

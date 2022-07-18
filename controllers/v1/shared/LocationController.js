@@ -10,7 +10,6 @@ exports.getRegions = catchAsync(async function (req, res, next) {
     const regions = await Region.find()
     let provinces = {}
     let cities = {}
-    console.log("🚀 ~ file: LocationController.js ~ line 13 ~ regions", regions[0])
 
     if (regions[0] !== undefined) {
         provinces = await Province.find({
