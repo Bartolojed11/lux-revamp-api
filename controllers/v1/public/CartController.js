@@ -90,6 +90,7 @@ exports.getCart = catchAsync(async (req, res, next) => {
                     "cart_items.amount": 1,
                     "cart_items.total_amount": 1,
                     "cart_items.quantity": 1,
+                    "cart_items.product._id": 1,
                     "cart_items.product.name": 1,
                     "cart_items.product.images": 1,
                 }
