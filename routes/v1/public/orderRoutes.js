@@ -8,8 +8,8 @@ const router = express.Router()
 router
     .route('/')
     .post(
-        // authController.protect,
-        // authController.restrictTo('customer'),
+        authController.protect,
+        authController.restrictTo('customer'),
         orderController.placeOrder
     )
 

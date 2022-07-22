@@ -60,10 +60,10 @@ exports.getCart = catchAsync(async (req, res, next) => {
         .aggregate([
             {
                 $match: { user_id: { $eq: user_id } },
-                
+
             },
             {
-                "$limit":1
+                "$limit": 1
             },
             {
                 "$lookup": {
@@ -82,7 +82,7 @@ exports.getCart = catchAsync(async (req, res, next) => {
                     as: "cart_items"
                 },
             },
-            
+
             {
                 $project: {
                     "_id": 1,
@@ -97,9 +97,9 @@ exports.getCart = catchAsync(async (req, res, next) => {
             },
         ])
 
-        // TODO : Find a remove [0]
+    // TODO : Find a remove [0]
     user_cart = user_cart[0] ?? []
-    
+
     return res.status(200).json({
         status: 'success',
         results: user_cart.cart_items?.length,
@@ -124,12 +124,21 @@ exports.delete = catchAsync(async (req, res, next) => {
 
     await CartItems.find(req.params.id)
 
-    cart_items.forEach(async (item) => {
-        await CartItems.findOneAndRemove({ _id: item._id })
-    });
+    deleteCartItems(cart_items, user_cart)
 
     return res.status(200).json({
         status: 'success',
         message: 'Removed from cart successfully'
     })
+})
+
+exports.deleteCartItems = (async (items = [], userCart) => {
+    for (const item of items) {
+        await CartItems.findOneAndRemove(
+            {
+                product_id: new mongoose.Types.ObjectId(item.product_id),
+                cart_id: new mongoose.Types.ObjectId(userCart._id)
+            }
+        )
+    }
 })
