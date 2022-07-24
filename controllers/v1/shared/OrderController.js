@@ -1,4 +1,8 @@
 const Category = require(`${process.cwd()}/models/categoryModel`)
+const Product = require(`${process.cwd()}/models/productModel`)
+const Order = require(`${process.cwd()}/models/ordersModel`)
+
+
 const catchAsync = require(`${process.cwd()}/handlers/CatchAsync`)
 
 
@@ -23,7 +27,29 @@ exports.getUsersOrders = catchAsync(async (req, res, next) => {
 
 exports.getOrder = catchAsync(async (req, res, next) => {
     const { ref_num } = req.params
-    const order = await Order.findOne({ ref_num })
+
+    let order = await Order.findOne({ ref_num })
+    order = order.toObject()
+    let ordered_items = []
+    let product = {}
+
+    for (let item of order.ordered_items) {
+        product = await Product.findOne({
+            _id: new mongoose.Types.ObjectId(item.product_id)
+        })
+        ordered_items = [...ordered_items,
+           {
+            'product_id': item.product_id,
+            'quantity': item.quantity,
+            'amount': item.amount,
+            'total_amount': item.total_amount,
+            'name': product.name,
+            'slug':product.url
+           }
+        ]
+    }
+
+    order.ordered_items = ordered_items
 
     return res.status(200).json({
         status: 'success',
