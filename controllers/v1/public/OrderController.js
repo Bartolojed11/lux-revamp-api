@@ -26,7 +26,8 @@ async function getOrderTotalAmount(items = []) {
 
 exports.placeOrder = catchAsync(async (req, res, next) => {
     const { user } = req
-    const { notes, ordered_items, delivery_address } = req.body
+    const { notes, delivery_address } = req.body
+    let { ordered_items } = req.body
 
     const name = user.first_name + user.last_name
 
@@ -40,6 +41,11 @@ exports.placeOrder = catchAsync(async (req, res, next) => {
 
     let user_cart = await Cart.findOne({
         user_id: user_id
+    })
+
+    ordered_items = ordered_items.map(function(item) {
+        item.product_id = new mongoose.Types.ObjectId(item.product_id)
+        return item
     })
 
     const order = await Order.create({
