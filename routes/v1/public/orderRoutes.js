@@ -14,28 +14,27 @@ router
     )
 
 router
-        .route('/:user_id')
-        .get(
-            // authController.protect,
-            // authController.restrictTo('customer'),
-            sharedOrderController.getUsersOrders
-        )
+    .route('user/:user_id')
+    .get(
+        authController.protect,
+        authController.restrictTo('customer'),
+        sharedOrderController.getUsersOrders
+    )
 
 router
     .route('/:ref_num')
     .get(
-        // authController.protect,
-        // authController.restrictTo('customer'),
+        authController.protect,
+        authController.restrictTo('customer'),
         sharedOrderController.getOrder
     )
     .patch(
-        // authController.protect,
-        // authController.restrictTo('customer'),
+        authController.protect,
+        authController.restrictTo('customer'),
         sharedOrderController.cancelOrder
     )
 
 module.exports = router
-
 
 
 
