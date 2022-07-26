@@ -14,7 +14,7 @@ router
     )
 
 router
-    .route('user/:user_id')
+    .route('/user')
     .get(
         authController.protect,
         authController.restrictTo('customer'),

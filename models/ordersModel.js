@@ -114,13 +114,15 @@ const OrderSchema = mongoose.Schema({
                 required: [true, 'Please provide a valid quantity']
             },
             amount: {
-                type: Number
+                type: Number,
+                required: [true, 'Please provide a valid amount']
             },
             total_amount: {
-                type: Number
+                type: Number,
+                required: [true, 'Please provide a valid total amount']
             }
         }
-    ]
+    ],
 })
 
 OrderSchema.pre('create', function (doc, next) {
