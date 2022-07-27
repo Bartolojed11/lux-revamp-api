@@ -39,14 +39,19 @@ exports.placeOrder = catchAsync(async (req, res, next) => {
 
     let total_amount = await getOrderTotalAmount(ordered_items)
 
+    let product = {}
+
     let user_cart = await Cart.findOne({
         user_id: user_id
     })
 
-    ordered_items = ordered_items.map(function(item) {
+    for (const item of ordered_items) {
         item.product_id = new mongoose.Types.ObjectId(item.product_id)
-        return item
-    })
+        product = await Product.findOne({ _id: item.product_id })
+
+        item.name = product.name
+        item.url = product.url
+    }
 
     const order = await Order.create({
         ref_num,

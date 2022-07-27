@@ -109,6 +109,14 @@ const OrderSchema = mongoose.Schema({
                 type: mongoose.Schema.ObjectId,
                 ref: 'products'
             },
+            name: {
+                type: String,
+                required: [true, 'Please provide product name']
+            },
+            url: {
+                type: String,
+                required:  [true, 'Please provide product url']
+            },
             quantity: {
                 type: Number,
                 required: [true, 'Please provide a valid quantity']
