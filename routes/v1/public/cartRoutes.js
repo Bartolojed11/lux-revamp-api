@@ -20,5 +20,12 @@ router
         cartController.delete
     )
 
+router.route('/count').get(
+    authController.protect,
+    authController.restrictTo('customer'),
+    cartController.getCartCount
+)
+
+
 module.exports = router
 

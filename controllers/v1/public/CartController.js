@@ -109,6 +109,43 @@ exports.getCart = catchAsync(async (req, res, next) => {
     })
 })
 
+exports.getCartCount = catchAsync(async (req, res, next) => {
+    let user_id = req.user._id
+    let cart
+    // user_id has type of mongoose.Schema.ObjectId, in order to get result, we need to convert it to ObjectId
+    user_id = new mongoose.Types.ObjectId(user_id)
+
+    cart = await Cart.findOne({
+        user_id: user_id
+    }).select('_id')
+
+    let total_count = await CartItems.aggregate(
+        [
+            {
+                $match: {
+                    cart_id: cart._id
+                }
+            },
+
+            {
+                $group: {
+                    _id: null,
+                    total_count : {
+                        $sum : {
+                            $add: ["$quantity"]
+                        }
+                    }
+                }
+            }
+        ]
+    )
+
+    return res.status(200).json({
+        status: 'success',
+        total_count: total_count[0]?.total_count || 0
+    })
+})
+
 exports.delete = catchAsync(async (req, res, next) => {
     const { cart_items } = req.body
 

@@ -7,16 +7,16 @@ class Filtering {
 
   filter() {
     let req = this.req
-    if (req.query.name) {
-      this.model = this.model.where('name', req.query.name)
-    }
+    const { allowedFields } = req
+    const { filters } = req
+    const { filterValues } = req
+    let ndx = 0
 
-    if (req.query.difficulty) {
-      this.model = this.model.where('difficulty', req.query.difficulty)
-    }
-
-    if (req.query.duration) {
-      this.model = this.model.where('duration').gte(req.query.duration)
+    for(const filter of filters) {
+      if (allowedFields.includes(filter) && (filterValues[ndx] !== undefined && filterValues[ndx] !== '')) {
+        this.model = this.model.where(filter, filterValues[ndx])
+      }
+      ndx++
     }
 
     this.query = this.model
