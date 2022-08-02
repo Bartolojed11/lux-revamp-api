@@ -5,6 +5,9 @@ const ProductSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please provide a name'],
     },
+    name_normalize: {
+        type: String
+    },
     url: {
         type: String,
         required: [true, 'Please provide a product url'],
@@ -75,14 +78,16 @@ const ProductSchema = mongoose.Schema({
     ]
 })
 
-ProductSchema.index(
-    {
-        name: 1,
-        categories: 1,
-        price: -1,
-        tags: 1
-    }
-)
+ProductSchema.index({ name: 1 })
+ProductSchema.index({ categories: 1 })
+ProductSchema.index({ price: 1 })
+ProductSchema.index({ tags: 1 })
+ProductSchema.index({ name_normalize: 1 })
+
+ProductSchema.pre('save', async function (next) {
+    this.name_normalize = this.name.toLowerCase()
+    next()
+})
 
 const Product = mongoose.model('Product', ProductSchema)
 

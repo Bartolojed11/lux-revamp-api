@@ -13,8 +13,11 @@ class Filtering {
     let ndx = 0
 
     for(const filter of filters) {
+
       if (allowedFields.includes(filter) && (filterValues[ndx] !== undefined && filterValues[ndx] !== '')) {
-        this.model = this.model.where(filter, filterValues[ndx])
+        // TODO: handle $eq condition
+        // this.model = this.model.where(filter, filterValues[ndx])
+        this.model = this.model.where(filter, { $regex: '.*' + filterValues[ndx].toLowerCase() + '.*' })
       }
       ndx++
     }

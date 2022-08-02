@@ -23,27 +23,29 @@ exports.checkGetProductParam = function (req, res, next) {
 exports.getProducts = catchAsync(async (req, res, next) => {
     let url = req.url.split('?')
     url = url[1] || ''
-    let allowedFields = ['name', 'price']
+    let allowedFields = ['name_normalize', 'price']
     let filterValues = []
-    let filters = []
+    let filterColumns = []
     let field = ''
 
     if (url !== '') {
         url = url.split('&')
         for (const query of url) {
             field = query.split('=')[0] || ''
+            if (field === 'name')  field = 'name_normalize'
             if (allowedFields.includes(field)) {
                 filterValues = [...filterValues, query.split('=')[1]]
-                filters = [...filters, query.split('=')[0]]
+                filterColumns = [...filterColumns, field]
             }
         }
     }
 
     req.allowedFields = allowedFields
-    req.filters = filters
+    req.filters = filterColumns
     req.filterValues = filterValues
 
     const model = new Filtering(Product, req).filter().selectedFields()
+
     const products = await model.query
 
     res.status(200).json({
