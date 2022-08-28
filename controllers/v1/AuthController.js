@@ -2,10 +2,10 @@ const { promisify } = require('util')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 
-const User = require('./../models/userModel')
-const catchAsync = require('../handlers/CatchAsync')
-const AppError = require('./../handlers/AppError')
-const sendEmail = require('./../utils/sendEmail')
+const User = require('../../models/userModel')
+const catchAsync = require('../../handlers/CatchAsync')
+const AppError = require('../../handlers/AppError')
+const sendEmail = require('../../utils/sendEmail')
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -14,7 +14,9 @@ const signToken = (id) => {
 }
 
 const createSendToken = (user, status, res) => {
+
     const token = signToken(user._id)
+
     let cookieOptions = {
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
         httpOnly: true // This cant be accessed or modified by browsers. All browsers will receive cookie, send it along w/ every request
@@ -23,10 +25,21 @@ const createSendToken = (user, status, res) => {
     // .secure will only send to https
     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true
     res.cookie('jwt', token, cookieOptions)
-
+    
     res.status(status).json({
         status: 'success',
-        token
+        data: {
+            token,
+            status: user.status,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            gender: user.gender,
+            role: user.role,
+            status: user.status,
+            id: user._id,
+            phone_number: user.phone_number
+        }
     })
 }
 
@@ -43,11 +56,19 @@ exports.restrictTo = (...roles) => {
 }
 
 exports.signup = catchAsync(async (req, res, next) => {
+    const { first_name, last_name, email, password, passwordConfirm, phone_number } = req.body
+
+    const user = await User.find({ email })
+
+    if (user.length !== 0) throw new AppError('This account already exists')
+
     const newUser = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm
+        first_name,
+        last_name,
+        email,
+        password,
+        passwordConfirm,
+        phone_number
     })
 
     const token = signToken(newUser._id)
@@ -60,6 +81,7 @@ exports.signup = catchAsync(async (req, res, next) => {
         }
     })
 })
+
 
 exports.login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body
@@ -81,6 +103,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.protect = catchAsync(async (req, res, next) => {
     const { authorization } = req.headers
+    
     let token
 
     if (authorization && authorization.startsWith('Bearer')) {

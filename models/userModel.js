@@ -4,9 +4,13 @@ const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 
 const UserSchema = mongoose.Schema({
-    name: {
+    first_name: {
         type: String,
-        required: [true, 'Please tell us your name']
+        required: [true, 'Please tell us your first name']
+    },
+    last_name: {
+        type: String,
+        required: [true, 'Please tell us your last name']
     },
     email: {
         type: String,
@@ -16,6 +20,10 @@ const UserSchema = mongoose.Schema({
             validator.isEmail,
             'Please provide a valid email address'
         ]
+    },
+    phone_number: {
+        type: String,
+        // required: [true, 'Please provide your phone number'],
     },
     photo: {
         type: String
@@ -41,12 +49,58 @@ const UserSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'user', 'guide', 'lead-guide'],
-        default: 'user'
+        enum: ['admin', 'customer', 'seller'],
+        default: 'customer'
     },
+    gender: {
+        type: String,
+        enum: ['male', 'female', 'other'],
+        default: 'other'
+    },
+    birthday: {
+        type: Date
+    },
+    status: {
+        type: String,
+        enum: ['active', 'inactive', 'on-vacation'],
+        default: 'active'
+    },
+    addresses: [{
+        type: Array,
+        _id: {
+            type:  mongoose.Schema.ObjectId,
+            required: true,
+            unique: true
+        },
+        region: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'regions',
+            required: [true, 'Please select a region']
+        },
+        province: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'provinces',
+            required: [true, 'Please select a province']
+        },
+        city: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'cities',
+            required: [true, 'Please select a city']
+        },
+        brgy: {
+            type: String
+        },
+        postal_code: {
+            type: Number
+        },
+        additional_address: {
+            type: String
+        },
+        default: false
+    }],
     passwordChangeAt: Date,
     passwordResetToken: String,
-    passwordResetExpires: Date,
+    passwordResetExpires: Date
 })
 
 UserSchema.pre('save', async function (next) {
