@@ -1,12 +1,17 @@
 const mongoose = require('mongoose')
 
 const RegionSchema = mongoose.Schema({
-    name: {
+    psgc_code: {
+        type: String,
+        required: ['Please provide a valid psg code'],
+        unique: true
+    },
+    region_name: {
         type: String,
         required: ['Please provide a valid region name'],
         unique: true
     },
-    region_no: {
+    region_code: {
         type: Number,
         required: [true, 'Please provide a valid region no.'],
         unique: true

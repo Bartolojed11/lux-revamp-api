@@ -1,14 +1,25 @@
 const mongoose = require('mongoose');
 
 const citySchema = mongoose.Schema({
-    name: {
+    city_code: {
         type: String,
-        require: true
+        required: [true, 'Please provide a valid city code']
     },
-    province_id: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'provinces',
-        required: [true, 'Please provide a valid province Id']
+    city_name: {
+        type: String,
+        required: [true, 'Please provide a valid city name']
+    },
+    province_code: {
+        type: String,
+        required: [true, 'Please provide a valid province code']
+    },
+    psgc_code: {
+        type: String,
+        required: [true, 'Please provide a valid psgc code']
+    },
+    region_code: {
+        type: String,
+        required: [true, 'Please provide a valid region code']
     }
 })
 
