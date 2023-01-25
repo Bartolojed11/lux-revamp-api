@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const citySchema = mongoose.Schema({
     city_code: {
         type: String,
-        required: [true, 'Please provide a valid city code']
+        required: [true, 'Please provide a valid city code'],
+        unique: true,
     },
     city_name: {
         type: String,

@@ -16,7 +16,7 @@ const ProvinceSchema = mongoose.Schema({
     },
     psgc_code: {
         type: String,
-        required: ['Please provide a valid psg code']
+        required: ['Please provide a valid psgc code']
     },
 })
 

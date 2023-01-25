@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const brgySchema = mongoose.Schema({
     brgy_code: {
         type: String,
-        required: [true, 'Please provide a valid brgy code']
+        required: [true, 'Please provide a valid brgy code'],
+        unique: true
     },
     brgy_name: {
         type: String,
@@ -23,6 +24,6 @@ const brgySchema = mongoose.Schema({
     }
 })
 
-const cityModel = mongoose.model('City', brgySchema)
+const brgyModel = mongoose.model('Barangay', brgySchema)
 
-module.exports = cityModel
+module.exports = brgyModel

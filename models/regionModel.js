@@ -12,7 +12,7 @@ const RegionSchema = mongoose.Schema({
         unique: true
     },
     region_code: {
-        type: Number,
+        type: String,
         required: [true, 'Please provide a valid region no.'],
         unique: true
     }

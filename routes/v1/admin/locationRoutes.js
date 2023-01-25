@@ -16,4 +16,8 @@ router
     .route('/city')
     .post(LocationController.addCity)
 
+router
+   .route('/initialize')
+   .post(LocationController.initialize)
+
 module.exports = router
