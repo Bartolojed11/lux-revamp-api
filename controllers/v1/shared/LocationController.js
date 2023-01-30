@@ -1,71 +1,49 @@
-const mongoose = require('mongoose')
-
 const Region = require(`${process.cwd()}/models/regionModel`)
 const Province = require(`${process.cwd()}/models/provinceModel`)
 const City = require(`${process.cwd()}/models/cityModel`)
+const Barangay = require(`${process.cwd()}/models/brgyModel`)
 
 const catchAsync = require(`${process.cwd()}/handlers/CatchAsync`)
 
 exports.getRegions = catchAsync(async function (req, res, next) {
-    const regions = await Region.find()
-    let provinces = {}
-    let cities = {}
-
-    if (regions[0] !== undefined) {
-        provinces = await Province.find({
-            region_id: new mongoose.Types.ObjectId(regions[0]._id)
-        })
-
-        if (provinces[0] !== undefined) {
-            cities = await City.find({
-                province_id: new mongoose.Types.ObjectId(provinces[0]._id)
-            })
-        }
-    }
-
+    const regions = await Region.find().sort({
+        region_code: 1
+    })
 
     return res.status(200).json({
         status: 'success',
         results: regions.length,
         data: {
-            regions,
-            provinces,
-            cities
+            regions
         }
     })
 })
 
-exports.getRegionsProvinces = catchAsync(async function (req, res, next) {
-    let { region_id } = req.params
-    let cities = {}
-
-    region_id = new mongoose.Types.ObjectId(region_id)
-    const provinces = await Province.find({
-        region_id
+exports.getRegionProvinces = catchAsync(async function (req, res, next) {
+    let { region_code } = req.params
+    let provinces = await Province.find({
+        region_code: {
+            $eq: region_code
+        }
+    }).sort({
+        province_name: 1
     })
-
-    if (provinces[0] !== undefined) {
-        cities = await City.find({
-            province_id: new mongoose.Types.ObjectId(provinces[0]._id)
-        })
-    }
 
     return res.status(200).json({
         status: 'success',
         results: provinces.length,
         data: {
             provinces,
-            cities
         }
     })
 })
 
 exports.getProvinceCities = catchAsync(async function (req, res, next) {
-    let { province_id } = req.params
-
-    province_id = new mongoose.Types.ObjectId(province_id)
+    let { province_code } = req.params
     const cities = await City.find({
-        province_id
+        province_code
+    }).sort({
+        city_name: 1
     })
 
     return res.status(200).json({
@@ -73,6 +51,23 @@ exports.getProvinceCities = catchAsync(async function (req, res, next) {
         results: cities.length,
         data: {
             cities
+        }
+    })
+})
+
+exports.getCitiesBrgy = catchAsync(async function (req, res, next) {
+    let { city_code } = req.params
+    const barangays = await Barangay.find({
+        city_code
+    }).sort({
+        brgy_name: 1
+    })
+
+    return res.status(200).json({
+        status: 'success',
+        results: barangays.length,
+        data: {
+            barangays
         }
     })
 })

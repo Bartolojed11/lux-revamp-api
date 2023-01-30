@@ -4,16 +4,19 @@ const LocationController = require(`${process.cwd()}/controllers/v1/shared/Locat
 const router = express.Router()
 
 router
-    .route('/')
+    .route('/regions')
     .get(LocationController.getRegions)
 
 router
-    .route('/province/:region_id')
-    .get(LocationController.getRegionsProvinces)
+    .route('/province/:region_code')
+    .get(LocationController.getRegionProvinces)
 
 router
-    .route('/cities/:province_id')
+    .route('/cities/:province_code')
     .get(LocationController.getProvinceCities)
 
+router
+    .route('/barangay/:city_code')
+    .get(LocationController.getCitiesBrgy)
 
 module.exports = router
