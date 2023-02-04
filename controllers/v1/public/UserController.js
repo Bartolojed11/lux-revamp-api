@@ -117,3 +117,15 @@ exports.deleteAddress = catchAsync(async function (req, res, next) {
     })
 
 })
+
+exports.getUserAddress = catchAsync(async function (req, res, next) {
+    let { _id } = req.user
+    const addressList = await User.find({ _id }).select('addresses')
+
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            "address": addressList[0]?.addresses
+        }
+    })
+});

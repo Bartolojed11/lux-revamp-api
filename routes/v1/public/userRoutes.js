@@ -10,7 +10,11 @@ router
 
 router
     .route('/address/:id')
-    .patch( authController.protect, userController.updateAddress)
-    .delete( authController.protect, userController.deleteAddress)
+    .patch(authController.protect, userController.updateAddress)
+    .delete(authController.protect, userController.deleteAddress)
+
+router
+    .route('/my-address')
+    .get(authController.protect, userController.getUserAddress)
 
 module.exports = router

@@ -66,7 +66,7 @@ const UserSchema = mongoose.Schema({
         default: 'active'
     },
     addresses: [{
-        type: Array,
+        type: Object,
         region_code: {
             type: String,
             ref: 'regions',
