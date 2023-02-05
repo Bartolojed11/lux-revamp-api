@@ -142,7 +142,9 @@ exports.getCartCount = catchAsync(async (req, res, next) => {
 
     return res.status(200).json({
         status: 'success',
-        total_count: total_count[0]?.total_count || 0
+        data : {
+            total_count: total_count[0]?.total_count || 0
+        }
     })
 })
 
