@@ -58,8 +58,9 @@ exports.addAddress = catchAsync(async function (req, res, next) {
 
     return res.status(200).json({
         status: 'success',
+        message: 'Address added successfully',
         data: {
-            user
+            "address" : user.addresses
         }
     })
 
@@ -87,8 +88,9 @@ exports.updateAddress = catchAsync(async function (req, res, next) {
 
     return res.status(200).json({
         status: 'success',
+        message: 'Address updated successfully',
         data: {
-            user
+            "address" : user.addresses
         }
     })
 
@@ -111,6 +113,7 @@ exports.deleteAddress = catchAsync(async function (req, res, next) {
 
     return res.status(200).json({
         status: 'success',
+        message: 'Address deleted successfully',
         data: {
             user
         }
