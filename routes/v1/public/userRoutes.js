@@ -17,4 +17,8 @@ router
     .route('/my-address')
     .get(authController.protect, userController.getUserAddress)
 
+router
+    .route('/default-shipping-address')
+    .get(authController.protect, userController.getDefaultShippingAddress)
+
 module.exports = router

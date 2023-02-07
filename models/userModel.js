@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserSchema = mongoose.Schema({
     first_name: {
@@ -67,6 +68,11 @@ const UserSchema = mongoose.Schema({
     },
     addresses: [{
         type: Object,
+        _id: {
+            type: mongoose.Schema.ObjectId,
+            required: true,
+            unique: true
+        },
         region_code: {
             type: String,
             ref: 'regions',

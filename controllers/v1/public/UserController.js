@@ -43,6 +43,7 @@ exports.addAddress = catchAsync(async function (req, res, next) {
     const brgy_code = address?.brgy?.brgy_code || null
 
     user.addresses.push({
+        _id: mongoose.Types.ObjectId(),
         region_name,
         province_name,
         city_name,
@@ -129,6 +130,21 @@ exports.getUserAddress = catchAsync(async function (req, res, next) {
         status: 'success',
         data: {
             "address": addressList[0]?.addresses
+        }
+    })
+});
+
+exports.getDefaultShippingAddress = catchAsync(async function (req, res, next) {
+    let { _id } = req.user
+    const addressList = await User.find({ _id }).select('addresses')
+    const defaultAddress = addressList[0]?.addresses?.filter((address) => {
+        return address.default
+    });
+
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            defaultAddress: defaultAddress[0] || {}
         }
     })
 });
