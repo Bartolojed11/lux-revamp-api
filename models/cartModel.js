@@ -15,7 +15,7 @@ const CartModelSchema = mongoose.Schema({
             validator.isEmail,
             'Please provide a valid email address'
         ]
-},
+    },
 })
 
 const CartModel = mongoose.model('Cart', CartModelSchema)

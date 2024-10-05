@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserSchema = mongoose.Schema({
     first_name: {
@@ -66,37 +67,58 @@ const UserSchema = mongoose.Schema({
         default: 'active'
     },
     addresses: [{
-        type: Array,
+        type: Object,
         _id: {
-            type:  mongoose.Schema.ObjectId,
+            type: mongoose.Schema.ObjectId,
             required: true,
             unique: true
         },
-        region: {
-            type: mongoose.Schema.ObjectId,
+        region_code: {
+            type: String,
             ref: 'regions',
+            required: [true, 'Please select a region code']
+        },
+        region_name: {
+            type: String,
+            ref: 'regions',
+            required: [true, 'Please select a region name']
+        },
+        province_code: {
+            type: String,
+            ref: 'provinces',
+            required: [true, 'Please select a province code']
+        },
+        province_name: {
+            type: String,
+            ref: 'provinces',
             required: [true, 'Please select a region']
         },
-        province: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'provinces',
-            required: [true, 'Please select a province']
-        },
-        city: {
-            type: mongoose.Schema.ObjectId,
+        city_name: {
+            type: String,
             ref: 'cities',
-            required: [true, 'Please select a city']
+            required: [true, 'Please select a city name']
         },
-        brgy: {
-            type: String
+        city_code: {
+            type: String,
+            ref: 'cities',
+            required: [true, 'Please select a city code']
+        },
+        brgy_code: {
+            type: String,
+            ref: 'barangays',
+            required: [true, 'Please select a city barangay code']
+        },
+        brgy_name: {
+            type: String,
+            ref: 'barangays',
+            required: [true, 'Please select a barangay name']
         },
         postal_code: {
             type: Number
         },
         additional_address: {
             type: String
-        },
-        default: false
+        }
     }],
     passwordChangeAt: Date,
     passwordResetToken: String,

@@ -7,7 +7,7 @@ PAGINATION_LIMIT=
 TOP_CHEAPEST_LIMIT=
 
 # This secret should have at least 32 characters for better security
-JWT_SECRET=i-will-have-my-6-digit-salary-next-year
+JWT_SECRET=peace-peace-peace-peace
 JWT_EXPIRATES_IN=90d
 JWT_COOKIE_EXPIRES_IN=90
 
@@ -21,3 +21,6 @@ EMAIL_FROM_NAME=
 
 # MAIN PRODUCTS
 PRODUCT_IMAGE_LIMIT=9
+
+#For order reference
+ORDER_PREFIX=

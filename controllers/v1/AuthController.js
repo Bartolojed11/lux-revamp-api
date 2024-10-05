@@ -25,7 +25,11 @@ const createSendToken = (user, status, res) => {
     // .secure will only send to https
     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true
     res.cookie('jwt', token, cookieOptions)
-    
+
+    const defaultShippingAddress = user?.addresses.filter((address) => {
+        return address.default
+    })
+
     res.status(status).json({
         status: 'success',
         data: {
@@ -38,7 +42,8 @@ const createSendToken = (user, status, res) => {
             role: user.role,
             status: user.status,
             id: user._id,
-            phone_number: user.phone_number
+            phone_number: user.phone_number,
+            defaultShippingAddress: defaultShippingAddress[0] || {}
         }
     })
 }
@@ -76,6 +81,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     res.status(201).json({
         status: 'success',
         token: token,
+        message: 'Your account has been successfully registered',
         data: {
             user: newUser
         }

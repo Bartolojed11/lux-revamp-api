@@ -20,41 +20,58 @@ const OrderSchema = mongoose.Schema({
     },
     delivery_address: [
         {
-            type: {
-                type: Array,
-                required: [true, 'Please provide a delivery address']
+            type: Object,
+            _id: {
+                type: mongoose.Schema.ObjectId,
+                required: true,
+                unique: true
             },
-            address: {
+            region_code: {
                 type: String,
-                required: [true, 'Please provide an address']
-            },
-            region: {
-                type: mongoose.Schema.ObjectId,
                 ref: 'regions',
-                required: [true, 'Please provide a region']
+                required: [true, 'Please select a region code']
             },
-            province: {
-                type: mongoose.Schema.ObjectId,
+            region_name: {
+                type: String,
+                ref: 'regions',
+                required: [true, 'Please select a region name']
+            },
+            province_code: {
+                type: String,
                 ref: 'provinces',
-                required: [true, 'Please provide a province']
+                required: [true, 'Please select a province code']
             },
-            city: {
-                type: mongoose.Schema.ObjectId,
+            province_name: {
+                type: String,
+                ref: 'provinces',
+                required: [true, 'Please select a region']
+            },
+            city_name: {
+                type: String,
                 ref: 'cities',
-                required: [true, 'Please provide a city']
+                required: [true, 'Please select a city name']
             },
-            brgy: {
-                type: String
+            city_code: {
+                type: String,
+                ref: 'cities',
+                required: [true, 'Please select a city code']
             },
-            latitude: {
-                type: String
+            brgy_code: {
+                type: String,
+                ref: 'barangays',
+                required: [true, 'Please select a city barangay code']
             },
-            longitude: {
-                type: String
+            brgy_name: {
+                type: String,
+                ref: 'barangays',
+                required: [true, 'Please select a barangay name']
             },
             postal_code: {
-                type: String
+                type: Number
             },
+            additional_address: {
+                type: String
+            }
         }
     ],
     total_amount: {
@@ -115,7 +132,7 @@ const OrderSchema = mongoose.Schema({
             },
             url: {
                 type: String,
-                required:  [true, 'Please provide product url']
+                required: [true, 'Please provide product url']
             },
             quantity: {
                 type: Number,

@@ -7,19 +7,16 @@ const router = express.Router()
 
 router
     .route('/')
-    .post(
-        authController.protect,
-        authController.restrictTo('customer'),
-        orderController.placeOrder
-    )
-
-router
-    .route('/user')
     .get(
         authController.protect,
         authController.restrictTo('customer'),
         sharedOrderController.getUsersOrders
     )
+    .post(
+        authController.protect,
+        authController.restrictTo('customer'),
+        orderController.placeOrder
+    )  
 
 router
     .route('/:ref_num')
@@ -35,6 +32,4 @@ router
     )
 
 module.exports = router
-
-
 

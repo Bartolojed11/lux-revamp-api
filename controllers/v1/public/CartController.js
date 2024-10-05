@@ -116,14 +116,14 @@ exports.getCartCount = catchAsync(async (req, res, next) => {
     user_id = new mongoose.Types.ObjectId(user_id)
 
     cart = await Cart.findOne({
-        user_id: user_id
+    user_id: user_id
     }).select('_id')
 
     let total_count = await CartItems.aggregate(
         [
             {
                 $match: {
-                    cart_id: cart._id
+                    cart_id: cart?._id
                 }
             },
 
@@ -142,7 +142,9 @@ exports.getCartCount = catchAsync(async (req, res, next) => {
 
     return res.status(200).json({
         status: 'success',
-        total_count: total_count[0]?.total_count || 0
+        data : {
+            total_count: total_count[0]?.total_count || 0
+        }
     })
 })
 
