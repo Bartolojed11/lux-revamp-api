@@ -16,3 +16,4 @@ This is an e-commerce API project I develop to learn Node JS development togethe
 ## Initializing the locations
 1. You may open a postman
 2. Then submit a post request on the endpoint api/v1/admin/location/initialize
+3. 
